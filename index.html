@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcanos & Luz Guía | Lectura de Tarot y Guía Espiritual</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="img/f3.jpeg">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        mystic: {
+                            900: '#0b061b',
+                            800: '#140c2b',
+                            700: '#211242',
+                            600: '#321960',
+                            accent: '#d4af37', // Gold
+                            glow: '#9d4edd',
+                            goldLight: '#f3e5ab'
+                        }
+                    },
+                    fontFamily: {
+                        cinzel: ['Cinzel', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 2.5s infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'shimmer': 'shimmer 3s infinite linear',
+                        'spin-slow': 'spin 20s linear infinite',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 15px rgba(212, 175, 55, 0.4), 0 0 30px rgba(157, 78, 221, 0.3)' },
+                            '50%': { boxShadow: '0 0 25px rgba(212, 175, 55, 0.8), 0 0 50px rgba(157, 78, 221, 0.6)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        shimmer: {
+                            '0%': { backgroundPosition: '-200% 0' },
+                            '100%': { backgroundPosition: '200% 0' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Mystic Background Gradient */
+        body {
+            background: radial-gradient(circle at top center, #211242 0%, #140c2b 40%, #0b061b 100%);
+            color: #e2e8f0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fff3b0 0%, #d4af37 50%, #aa7c11 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-border {
+            border-image: linear-gradient(to bottom, #d4af37, rgba(212, 175, 55, 0.2)) 1;
+        }
+
+        .card-glass {
+            background: rgba(20, 12, 43, 0.65);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .card-glass:hover {
+            border-color: rgba(212, 175, 55, 0.6);
+            box-shadow: 0 12px 40px 0 rgba(157, 78, 221, 0.25);
+        }
+
+        /* Typewriter Cursor */
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            background-color: #d4af37;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0b061b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #321960;
+            border-radius: 4px;
+            border: 1px solid #d4af37;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #9d4edd;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen">
+
+    <!-- Canvas para Partículas Místicas -->
+    <canvas id="starsCanvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0 opacity-40"></canvas>
+
+    <!-- HEADER / NAVIGATION (Fixed Sticky Nav) -->
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 bg-mystic-900/80 backdrop-blur-md border-b border-mystic-accent/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo -->
+            <a href="#inicio" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-mystic-accent to-purple-600 p-0.5 flex items-center justify-center shadow-[0_0_15px_rgba(212,175,55,0.5)]">
+                    <div class="w-full h-full bg-mystic-900 rounded-full flex items-center justify-center">
+                        <i class="fa-solid fa-eye text-mystic-accent group-hover:scale-110 transition-transform duration-300"></i>
+                    </div>
+                </div>
+                <div>
+                    <span class="font-cinzel font-bold text-lg sm:text-xl text-white tracking-wider block leading-tight">MAESTROS</span>
+                    <span class="text-xs text-mystic-accent tracking-widest font-semibold block uppercase">Cabalísticos & Videntes</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu Nav -->
+            <nav class="hidden md:flex items-center space-x-8 font-medium">
+                <a href="#inicio" class="text-gray-300 hover:text-mystic-accent transition-colors duration-300 text-sm tracking-widest uppercase hover:scale-105">Inicio</a>
+                <a href="#servicios" class="text-gray-300 hover:text-mystic-accent transition-colors duration-300 text-sm tracking-widest uppercase hover:scale-105">Servicios</a>
+                <a href="#testimonios" class="text-gray-300 hover:text-mystic-accent transition-colors duration-300 text-sm tracking-widest uppercase hover:scale-105">Testimonios</a>
+                <a href="#contacto" class="text-gray-300 hover:text-mystic-accent transition-colors duration-300 text-sm tracking-widest uppercase hover:scale-105">Contacto</a>
+            </nav>
+
+            <!-- CTA Button Direct -->
+            <div class="hidden md:block">
+                <a href="https://wa.me/?text=Hola%20Maestra%20F%C3%A1tima,%20quisiera%20solicitar%20mi%20consulta%20espiritual%20personalizada" target="_blank" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-mystic-accent via-amber-400 to-mystic-accent text-mystic-900 font-bold text-xs tracking-wider uppercase shadow-[0_0_20px_rgba(212,175,55,0.4)] hover:shadow-[0_0_30px_rgba(212,175,55,0.8)] transition-all duration-300 transform hover:-translate-y-0.5">
+                    <i class="fa-brands fa-whatsapp text-sm mr-1.5 font-extrabold"></i> Consulta Gratis
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobileMenuBtn" class="md:hidden text-gray-300 hover:text-mystic-accent text-2xl focus:outline-none" aria-label="Abrir Menú">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Drawer -->
+        <div id="mobileMenu" class="hidden md:hidden bg-mystic-900/95 border-b border-mystic-accent/30 backdrop-blur-xl px-6 py-6 transition-all">
+            <div class="flex flex-col space-y-4 text-center">
+                <a href="#inicio" class="mobile-link text-gray-200 hover:text-mystic-accent text-base py-2 uppercase font-cinzel">Inicio</a>
+                <a href="#servicios" class="mobile-link text-gray-200 hover:text-mystic-accent text-base py-2 uppercase font-cinzel">Servicios</a>
+                <a href="#testimonios" class="mobile-link text-gray-200 hover:text-mystic-accent text-base py-2 uppercase font-cinzel">Testimonios</a>
+                <a href="#contacto" class="mobile-link text-gray-200 hover:text-mystic-accent text-base py-2 uppercase font-cinzel">Contacto</a>
+                <a href="https://wa.me/?text=Hola%20Maestra%20F%C3%A1tima,%20quisiera%20solicitar%20mi%20consulta%20espiritual%20personalizada" target="_blank" class="w-full py-3 rounded-full bg-gradient-to-r from-mystic-accent to-amber-500 text-mystic-900 font-bold text-sm tracking-wider uppercase shadow-lg">
+                    <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Solicitar Consulta Gratis
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION 1: HERO / INICIO WITH AUTO SLIDER & TYPEWRITER -->
+    <section id="inicio" class="relative min-h-screen pt-28 pb-16 flex items-center justify-center overflow-hidden z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Text Content -->
+                <div class="lg:col-span-7 text-center lg:text-left space-y-6">
+                    
+                    <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full border border-mystic-accent/40 bg-mystic-800/60 backdrop-blur-md">
+                        <span class="flex h-2 w-2 rounded-full bg-emerald-400 animate-ping"></span>
+                        <span class="text-xs font-semibold text-mystic-goldLight tracking-widest uppercase">Maestra Fátima • Videncia Natural</span>
+                    </div>
+
+                    <!-- Dynamic Typewriter Title -->
+                    <h1 class="font-cinzel text-3xl sm:text-5xl lg:text-6xl font-bold leading-tight min-h-[140px] sm:min-h-[160px] lg:min-h-[180px]">
+                        <span class="text-white block">Descubre la Guía para</span>
+                        <span id="typewriter" class="gold-gradient-text"></span><span class="cursor">&nbsp;</span>
+                    </h1>
+
+                    <p class="text-gray-300 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        A través de los sagrados oráculos cabalísticos y la clarividencia natural, abrimos tus caminos hacia la paz, la prosperidad y el amor verdadero.
+                    </p>
+
+                    <!-- Feature Highlights -->
+                    <div class="grid grid-cols-3 gap-4 pt-4 max-w-lg mx-auto lg:mx-0 border-y border-mystic-accent/20 py-4">
+                        <div class="text-center">
+                            <span class="block text-xl sm:text-2xl font-bold text-mystic-accent font-cinzel">100%</span>
+                            <span class="text-xs text-gray-400 uppercase tracking-wider">Confidencial</span>
+                        </div>
+                        <div class="text-center border-x border-mystic-accent/20">
+                            <span class="block text-xl sm:text-2xl font-bold text-mystic-accent font-cinzel">25+</span>
+                            <span class="text-xs text-gray-400 uppercase tracking-wider">Años Guiando</span>
+                        </div>
+                        <div class="text-center">
+                            <span class="block text-xl sm:text-2xl font-bold text-mystic-accent font-cinzel">GRATIS</span>
+                            <span class="text-xs text-gray-400 uppercase tracking-wider">1ª Consulta</span>
+                        </div>
+                    </div>
+
+                    <!-- Call To Actions -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                        <a href="https://wa.me/?text=Hola%20Maestra%20F%C3%A1tima,%20deseo%20mi%20consulta%20gratuita" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-mystic-accent via-amber-400 to-mystic-accent text-mystic-900 font-bold text-sm tracking-widest uppercase shadow-[0_0_25px_rgba(212,175,55,0.5)] hover:shadow-[0_0_35px_rgba(212,175,55,0.9)] hover:scale-105 transition-all duration-300 flex items-center justify-center">
+                            <i class="fa-brands fa-whatsapp text-xl mr-2"></i> Solicitar Consulta Gratis
+                        </a>
+                        <a href="#servicios" class="w-full sm:w-auto px-8 py-4 rounded-full bg-mystic-800/80 border border-mystic-accent/40 text-mystic-goldLight hover:bg-mystic-700 font-semibold text-sm tracking-widest uppercase transition-all duration-300 text-center hover:border-mystic-accent">
+                            Ver Servicios
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Visual: Novel Auto Slider Carousel -->
+                <div class="lg:col-span-5 relative">
+                    <!-- Mystic Decorative Circle Halo -->
+                    <div class="absolute -inset-4 bg-gradient-to-r from-mystic-accent/20 to-purple-600/30 rounded-full blur-2xl animate-pulse"></div>
+
+                    <!-- Card Slider Container -->
+                    <div class="relative rounded-2xl overflow-hidden card-glass p-3 border border-mystic-accent/40 shadow-2xl">
+                        <div id="heroSlider" class="relative h-[380px] sm:h-[420px] rounded-xl overflow-hidden">
+                            
+                            <!-- Slide 1 -->
+                            <div class="slide absolute inset-0 opacity-100 transition-opacity duration-1000 ease-in-out flex flex-col justify-end p-6 bg-cover bg-center" style="background-image: linear-gradient(to top, rgba(11, 6, 27, 0.95), rgba(11, 6, 27, 0.2)), url('https://images.unsplash.com/photo-1514539079130-25950c84af65?auto=format&fit=crop&w=800&q=80');">
+                                <span class="px-3 py-1 bg-mystic-accent text-mystic-900 font-bold text-xs rounded-full w-max mb-2 uppercase tracking-wider">Lectura de Tarot</span>
+                                <h3 class="font-cinzel text-2xl font-bold text-white">Revelación de Tu Camino</h3>
+                                <p class="text-xs text-gray-300 mt-1">Conoce las respuestas que el destino tiene para tu vida amorosa y financiera.</p>
+                            </div>
+
+                            <!-- Slide 2 -->
+                            <div class="slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out flex flex-col justify-end p-6 bg-cover bg-center" style="background-image: linear-gradient(to top, rgba(11, 6, 27, 0.95), rgba(11, 6, 27, 0.2)), url('https://images.unsplash.com/photo-1567449303078-57ad995bd301?auto=format&fit=crop&w=800&q=80');">
+                                <span class="px-3 py-1 bg-purple-500 text-white font-bold text-xs rounded-full w-max mb-2 uppercase tracking-wider">Limpiezas & Alta Magia</span>
+                                <h3 class="font-cinzel text-2xl font-bold text-white">Armonía y Protección</h3>
+                                <p class="text-xs text-gray-300 mt-1">Elimina malas energías, envidias y bloqueos espirituales de tu entorno.</p>
+                            </div>
+
+                            <!-- Slide 3 -->
+                            <div class="slide absolute inset-0 opacity-0 transition-opacity duration-1000 ease-in-out flex flex-col justify-end p-6 bg-cover bg-center" style="background-image: linear-gradient(to top, rgba(11, 6, 27, 0.95), rgba(11, 6, 27, 0.2)), url('https://images.unsplash.com/photo-1532012197267-da84d127e765?auto=format&fit=crop&w=800&q=80');">
+                                <span class="px-3 py-1 bg-amber-500 text-mystic-900 font-bold text-xs rounded-full w-max mb-2 uppercase tracking-wider">Cábala Sagrada</span>
+                                <h3 class="font-cinzel text-2xl font-bold text-white">Unión y Prosperidad</h3>
+                                <p class="text-xs text-gray-300 mt-1">Rituales ancestrales para atraer abundancia y fortalecer el amor.</p>
+                            </div>
+
+                            <!-- Slider Controls / Dots -->
+                            <div class="absolute bottom-4 right-4 flex space-x-2 z-20">
+                                <button class="dot w-3 h-3 rounded-full bg-mystic-accent transition-all duration-300" onclick="setSlide(0)"></button>
+                                <button class="dot w-3 h-3 rounded-full bg-white/40 transition-all duration-300" onclick="setSlide(1)"></button>
+                                <button class="dot w-3 h-3 rounded-full bg-white/40 transition-all duration-300" onclick="setSlide(2)"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: SERVICIOS Y TRABAJOS (4 Interactive Cards) -->
+    <section id="servicios" class="py-24 relative z-10 bg-mystic-900/60 border-t border-mystic-accent/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-mystic-accent text-sm font-semibold tracking-widest uppercase">Orientación Especializada</span>
+                <h2 class="font-cinzel text-3xl sm:text-4xl font-bold text-white mt-2">Nuestros Servicios Espirituales</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-mystic-accent to-transparent mx-auto mt-4"></div>
+                <p class="text-gray-400 mt-4 text-sm sm:text-base">Trabajos sagrados realizados por expertos en videncia natural y cábala antigua con máxima discreción.</p>
+            </div>
+
+            <!-- 4 Grid Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- Service 1: Amarres de Amor -->
+                <div class="card-glass rounded-2xl p-6 transition-all duration-300 transform hover:-translate-y-2 flex flex-col justify-between group relative overflow-hidden">
+                    <div class="absolute -right-8 -top-8 w-24 h-24 bg-rose-500/10 rounded-full blur-xl group-hover:bg-rose-500/20 transition-all"></div>
+                    <div>
+                        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-rose-500/20 to-mystic-800 border border-rose-500/40 flex items-center justify-center text-rose-400 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-heart-circle-bolt"></i>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-white mb-3 group-hover:text-mystic-accent transition-colors">Amarres de Amor</h3>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed mb-6">
+                            Restauramos la pasión, endulzamos sentimientos y retornamos a tu ser amado eliminando intrusos o terceras personas.
+                        </p>
+                    </div>
+                    <button onclick="openModal('Amarres de Amor', 'Unimos almas a través de la alta magia blanca y la cábala. Consulta confidencial para evaluar la compatibilidad espiritual con tu pareja.')" class="w-full py-2.5 rounded-lg border border-mystic-accent/30 text-mystic-goldLight text-xs font-semibold uppercase tracking-wider hover:bg-mystic-accent hover:text-mystic-900 transition-all">
+                        Consultar Caso <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+
+                <!-- Service 2: Limpiezas Espirituales -->
+                <div class="card-glass rounded-2xl p-6 transition-all duration-300 transform hover:-translate-y-2 flex flex-col justify-between group relative overflow-hidden">
+                    <div class="absolute -right-8 -top-8 w-24 h-24 bg-purple-500/10 rounded-full blur-xl group-hover:bg-purple-500/20 transition-all"></div>
+                    <div>
+                        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500/20 to-mystic-800 border border-purple-500/40 flex items-center justify-center text-purple-400 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-white mb-3 group-hover:text-mystic-accent transition-colors">Limpiezas Espirituales</h3>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed mb-6">
+                            Liberación de energías pesadas, mal de ojo, envidias y salaciones en tu persona, hogar o negocio para recuperar tu paz.
+                        </p>
+                    </div>
+                    <button onclick="openModal('Limpiezas Espirituales', 'Purificación de cuerpo, mente y aura mediante sahumerios ancestrales, aceites sagrados e invocación de protección celestial.')" class="w-full py-2.5 rounded-lg border border-mystic-accent/30 text-mystic-goldLight text-xs font-semibold uppercase tracking-wider hover:bg-mystic-accent hover:text-mystic-900 transition-all">
+                        Consultar Caso <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+
+                <!-- Service 3: Desbloqueos de Caminos -->
+                <div class="card-glass rounded-2xl p-6 transition-all duration-300 transform hover:-translate-y-2 flex flex-col justify-between group relative overflow-hidden">
+                    <div class="absolute -right-8 -top-8 w-24 h-24 bg-amber-500/10 rounded-full blur-xl group-hover:bg-amber-500/20 transition-all"></div>
+                    <div>
+                        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-500/20 to-mystic-800 border border-amber-500/40 flex items-center justify-center text-amber-400 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-key"></i>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-white mb-3 group-hover:text-mystic-accent transition-colors">Desbloqueo de Caminos</h3>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed mb-6">
+                            ¿Sientes que nada avanza? Abrimos las puertas cerradas en tu destino para fluir con libertad y éxito constante.
+                        </p>
+                    </div>
+                    <button onclick="openModal('Desbloqueo de Caminos', 'Rompe cadenas invisibles de estancamiento. Abrimos tus senderos hacia nuevas oportunidades y decisiones acertadas.')" class="w-full py-2.5 rounded-lg border border-mystic-accent/30 text-mystic-goldLight text-xs font-semibold uppercase tracking-wider hover:bg-mystic-accent hover:text-mystic-900 transition-all">
+                        Consultar Caso <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+
+                <!-- Service 4: Suerte y Prosperidad -->
+                <div class="card-glass rounded-2xl p-6 transition-all duration-300 transform hover:-translate-y-2 flex flex-col justify-between group relative overflow-hidden">
+                    <div class="absolute -right-8 -top-8 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl group-hover:bg-emerald-500/20 transition-all"></div>
+                    <div>
+                        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-500/20 to-mystic-800 border border-emerald-500/40 flex items-center justify-center text-emerald-400 text-2xl mb-6 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-coins"></i>
+                        </div>
+                        <h3 class="font-cinzel text-xl font-bold text-white mb-3 group-hover:text-mystic-accent transition-colors">Suerte y Abundancia</h3>
+                        <p class="text-gray-300 text-xs sm:text-sm leading-relaxed mb-6">
+                            Rituales de imán del dinero, prosperidad para negocios, suerte en juegos y estabilidad económica asegurada.
+                        </p>
+                    </div>
+                    <button onclick="openModal('Suerte y Abundancia', 'Activación de códigos cabalísticos para la abundancia financiera y el crecimiento económico personal.')" class="w-full py-2.5 rounded-lg border border-mystic-accent/30 text-mystic-goldLight text-xs font-semibold uppercase tracking-wider hover:bg-mystic-accent hover:text-mystic-900 transition-all">
+                        Consultar Caso <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: TESTIMONIOS (Calificación 5 Estrellas) -->
+    <section id="testimonios" class="py-24 relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-mystic-accent text-sm font-semibold tracking-widest uppercase">Historias de Luz</span>
+                <h2 class="font-cinzel text-3xl sm:text-4xl font-bold text-white mt-2">Testimonios de Quienes Han Consultado</h2>
+                <div class="w-24 h-1 bg-gradient-to-r from-transparent via-mystic-accent to-transparent mx-auto mt-4"></div>
+            </div>
+
+            <!-- Testimonials Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                
+                <!-- Testimonial 1 -->
+                <div class="card-glass rounded-2xl p-6 relative flex flex-col justify-between">
+                    <i class="fa-solid fa-quote-right absolute top-6 right-6 text-mystic-accent/20 text-4xl"></i>
+                    <div>
+                        <!-- 5 Gold Stars -->
+                        <div class="flex space-x-1 text-amber-400 text-sm mb-4">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-300 text-sm italic leading-relaxed mb-6">
+                            "Le pedí ayuda a la Maestra Fátima cuando sentía que mi pareja y yo estábamos totalmente distanciados. Gracias a su lectura e indicaciones, retornó la calma a nuestro hogar en menos de una semana. ¡Infinitas gracias!"
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 pt-4 border-t border-white/10">
+                        <div class="w-10 h-10 rounded-full bg-mystic-accent/20 border border-mystic-accent text-mystic-accent font-bold flex items-center justify-center font-cinzel">
+                            M.R
+                        </div>
+                        <div>
+                            <h4 class="text-white text-sm font-semibold">María Rosa G.</h4>
+                            <span class="text-xs text-gray-400">Houston, Texas</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="card-glass rounded-2xl p-6 relative flex flex-col justify-between">
+                    <i class="fa-solid fa-quote-right absolute top-6 right-6 text-mystic-accent/20 text-4xl"></i>
+                    <div>
+                        <!-- 5 Gold Stars -->
+                        <div class="flex space-x-1 text-amber-400 text-sm mb-4">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-300 text-sm italic leading-relaxed mb-6">
+                            "Tenía un negocio estancado por más de un año. Me realizaron una limpieza espiritual de caminos y a las pocas semanas empezaron a llegar clientes nuevos. Muy agradecido con el servicio."
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 pt-4 border-t border-white/10">
+                        <div class="w-10 h-10 rounded-full bg-mystic-accent/20 border border-mystic-accent text-mystic-accent font-bold flex items-center justify-center font-cinzel">
+                            C.H
+                        </div>
+                        <div>
+                            <h4 class="text-white text-sm font-semibold">Carlos H.</h4>
+                            <span class="text-xs text-gray-400">Miami, Florida</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="card-glass rounded-2xl p-6 relative flex flex-col justify-between">
+                    <i class="fa-solid fa-quote-right absolute top-6 right-6 text-mystic-accent/20 text-4xl"></i>
+                    <div>
+                        <!-- 5 Gold Stars -->
+                        <div class="flex space-x-1 text-amber-400 text-sm mb-4">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-gray-300 text-sm italic leading-relaxed mb-6">
+                            "Su lectura fue acertada en todo sin yo haberle dicho nada previamente. La confidencialidad y paciencia de la Maestra transmite demasiada paz. La recomiendo al 100%."
+                        </p>
+                    </div>
+                    <div class="flex items-center space-x-3 pt-4 border-t border-white/10">
+                        <div class="w-10 h-10 rounded-full bg-mystic-accent/20 border border-mystic-accent text-mystic-accent font-bold flex items-center justify-center font-cinzel">
+                            L.V
+                        </div>
+                        <div>
+                            <h4 class="text-white text-sm font-semibold">Laura V.</h4>
+                            <span class="text-xs text-gray-400">Los Angeles, California</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 4: FOOTER & CONTACT DATA -->
+    <footer id="contacto" class="relative z-10 bg-mystic-900 border-t border-mystic-accent/30 pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-white/10">
+                
+                <!-- Col 1: About -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-eye text-mystic-accent text-xl"></i>
+                        <span class="font-cinzel font-bold text-lg text-white">MAESTROS CABALÍSTICOS</span>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">
+                        Guiando vidas a través de la interpretación sagrada de cartas, astrología y rituales de iluminación espiritual. Atendemos casos con máxima privacidad.
+                    </p>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div>
+                    <h4 class="font-cinzel font-bold text-white text-sm uppercase tracking-wider mb-4 text-mystic-accent">Navegación</h4>
+                    <ul class="space-y-2 text-xs text-gray-300">
+                        <li><a href="#inicio" class="hover:text-mystic-accent transition-colors">Inicio</a></li>
+                        <li><a href="#servicios" class="hover:text-mystic-accent transition-colors">Nuestros Servicios</a></li>
+                        <li><a href="#testimonios" class="hover:text-mystic-accent transition-colors">Testimonios de Clientes</a></li>
+                        <li><a href="https://wa.me/?text=Hola%20Maestra%20F%C3%A1tima,%20deseo%20una%20consulta" target="_blank" class="hover:text-mystic-accent transition-colors">Consulta Directa WhatsApp</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Hours & Privacy -->
+                <div>
+                    <h4 class="font-cinzel font-bold text-white text-sm uppercase tracking-wider mb-4 text-mystic-accent">Atención al Cliente</h4>
+                    <p class="text-xs text-gray-300 mb-2"><i class="fa-regular fa-clock text-mystic-accent mr-2"></i> Lunes a Domingo: 24 Horas</p>
+                    <p class="text-xs text-gray-300 mb-2"><i class="fa-solid fa-shield-halved text-mystic-accent mr-2"></i> Atenciones 100% Confidenciales</p>
+                    <p class="text-xs text-gray-300"><i class="fa-solid fa-globe text-mystic-accent mr-2"></i> Consultas a todo el mundo por WhatsApp</p>
+                </div>
+
+                <!-- Col 4: Contact Action -->
+                <div>
+                    <h4 class="font-cinzel font-bold text-white text-sm uppercase tracking-wider mb-4 text-mystic-accent">Atención Inmediata</h4>
+                    <p class="text-xs text-gray-400 mb-4">Haz clic abajo para iniciar tu lectura personalizada directa.</p>
+                    <a href="https://wa.me/?text=Hola%20Maestra%20F%C3%A1tima,%20quisiera%20solicitar%20mi%20consulta%20espiritual%20personalizada" target="_blank" class="inline-flex items-center px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider transition-colors w-full justify-center">
+                        <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Escribir a WhatsApp
+                    </a>
+                </div>
+
+            </div>
+
+            <!-- Disclaimer & Copyright -->
+            <div class="pt-8 text-center text-xs text-gray-500 space-y-2">
+                <p>© 2026 Maestros Cabalísticos y Videntes Naturales. Todos los derechos reservados.</p>
+                <p class="max-w-3xl mx-auto text-[11px] opacity-70">
+                    *Aviso Legal: Los servicios prestados de orientación espiritual, lectura de cartas y videncia natural son para fines de entretenimiento y crecimiento personal para mayores de 18 años. Se respeta en todo momento la privacidad y confidencialidad del usuario.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOTÓN DE WHATSAPP FLOTANTE Y POPUP CHAT INTERACTIVO -->
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        
+        <!-- Animated Chat Modal / Popup Message -->
+        <div id="wsPopup" class="hidden mb-4 w-72 sm:w-80 card-glass rounded-2xl p-4 border border-emerald-500/40 shadow-2xl transition-all duration-300 animate-float">
+            <!-- Header chat popup -->
+            <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-3">
+                <div class="flex items-center space-x-2">
+                    <div class="relative">
+                        <div class="w-9 h-9 rounded-full bg-mystic-accent/30 border border-mystic-accent flex items-center justify-center text-mystic-accent font-bold text-xs font-cinzel">
+                            MF
+                        </div>
+                        <span class="absolute bottom-0 right-0 w-2.5 h-2.5 bg-emerald-500 border border-mystic-900 rounded-full"></span>
+                    </div>
+                    <div>
+                        <h5 class="text-xs font-bold text-white">Maestra Fátima</h5>
+                        <span class="text-[10px] text-emerald-400 flex items-center"><i class="fa-solid fa-circle text-[6px] mr-1"></i> En línea ahora</span>
+                    </div>
+                </div>
+                <button onclick="toggleWsPopup()" class="text-gray-400 hover:text-white text-sm" aria-label="Cerrar chat">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <!-- Chat Bubble Content -->
+            <div class="bg-mystic-800/90 rounded-xl p-3 border border-mystic-accent/20 mb-3">
+                <p class="text-xs text-gray-200 leading-relaxed">
+                    ¡Hola! Bienvenida/o a <strong>Maestros Cabalísticos</strong>. En un momento uno de nuestros maestros te atenderá. 🔮✨
+                </p>
+                <span class="block text-[9px] text-gray-400 text-right mt-1">Recién enviado</span>
+            </div>
+
+            <!-- Action button to launch WhatsApp chat -->
+            <a href="https://wa.me/?text=Hola%20Maestra%20F%C3%A1tima,%20quisiera%20solicitar%20mi%20consulta%20espiritual%20personalizada" target="_blank" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 shadow-lg transition-all">
+                <i class="fa-brands fa-whatsapp text-base"></i>
+                <span>Iniciar Chat Gratis</span>
+            </a>
+        </div>
+
+        <!-- Floating Button Trigger with continuous pulse -->
+        <button onclick="toggleWsPopup()" class="relative group focus:outline-none" aria-label="WhatsApp Chat">
+            <span class="absolute -inset-1 rounded-full bg-emerald-500 opacity-75 animate-ping"></span>
+            <div class="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-emerald-600 via-emerald-500 to-teal-400 flex items-center justify-center text-white text-3xl shadow-[0_0_25px_rgba(16,185,129,0.8)] transform group-hover:scale-110 transition-transform">
+                <i class="fa-brands fa-whatsapp font-extrabold"></i>
+            </div>
+        </button>
+    </div>
+
+    <!-- Generic Service Details Modal -->
+    <div id="serviceModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="card-glass max-w-md w-full rounded-2xl p-6 border border-mystic-accent relative animate-float">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="text-center">
+                <div class="w-12 h-12 rounded-full bg-mystic-accent/20 border border-mystic-accent text-mystic-accent font-bold flex items-center justify-center mx-auto mb-4 text-xl">
+                    🔮
+                </div>
+                <h3 id="modalTitle" class="font-cinzel text-2xl font-bold text-white mb-2"></h3>
+                <p id="modalDescription" class="text-sm text-gray-300 leading-relaxed mb-6"></p>
+                <a id="modalWaBtn" href="#" target="_blank" class="w-full py-3 rounded-full bg-gradient-to-r from-mystic-accent to-amber-500 text-mystic-900 font-bold text-xs uppercase tracking-wider flex items-center justify-center space-x-2 shadow-lg">
+                    <i class="fa-brands fa-whatsapp text-base"></i>
+                    <span>Consultar Gratis por WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- 1. Canvas Stars / Mystic Particle Animation ---
+        const canvas = document.getElementById('starsCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = Array.from({ length: 65 }, () => ({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 1.8 + 0.5,
+            alpha: Math.random(),
+            speed: Math.random() * 0.015 + 0.005
+        }));
+
+        function drawParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.alpha += p.speed;
+                if (p.alpha > 1 || p.alpha < 0) p.speed = -p.speed;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(212, 175, 55, ${Math.abs(p.alpha)})`;
+                ctx.fill();
+            });
+            requestAnimationFrame(drawParticles);
+        }
+        drawParticles();
+
+        // --- 2. Typewriter Effect ---
+        const words = ["Tu Futuro Amoroso", "La Prosperidad Económica", "Tu Paz Espiritual", "El Amor de Tu Vida"];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typewriterElement = document.getElementById("typewriter");
+
+        function type() {
+            const currentWord = words[wordIndex];
+            if (isDeleting) {
+                typewriterElement.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typewriterElement.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typeSpeed = isDeleting ? 40 : 80;
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                typeSpeed = 2200; // Pause at end of word
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                typeSpeed = 400;
+            }
+
+            setTimeout(type, typeSpeed);
+        }
+        document.addEventListener("DOMContentLoaded", type);
+
+        // --- 3. Hero Carousel Slider ---
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('#heroSlider .slide');
+        const dots = document.querySelectorAll('#heroSlider .dot');
+
+        function setSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.style.opacity = i === index ? '1' : '0';
+            });
+            dots.forEach((dot, i) => {
+                dot.className = i === index 
+                    ? 'dot w-6 h-3 rounded-full bg-mystic-accent transition-all duration-300' 
+                    : 'dot w-3 h-3 rounded-full bg-white/40 transition-all duration-300';
+            });
+            currentSlide = index;
+        }
+
+        setInterval(() => {
+            let next = (currentSlide + 1) % slides.length;
+            setSlide(next);
+        }, 4500);
+
+        // --- 4. Mobile Menu Drawer Toggle ---
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // --- 5. WhatsApp Floating Popup Toggle ---
+        function toggleWsPopup() {
+            const popup = document.getElementById('wsPopup');
+            popup.classList.toggle('hidden');
+        }
+
+        // --- 6. Modal Service Windows ---
+        function openModal(title, description) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalDescription').textContent = description;
+            const waUrl = `https://wa.me/?text=Hola%20Maestra%20F%C3%A1tima,%20quisiera%20solicitar%20informaci%C3%B3n%20sobre:%20${encodeURIComponent(title)}`;
+            document.getElementById('modalWaBtn').setAttribute('href', waUrl);
+            document.getElementById('serviceModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('serviceModal').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
